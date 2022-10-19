@@ -1,0 +1,82 @@
+{% extends 'bases/baseAdmin.html' %}
+{% load static %}
+<title>{% block title %} Editar profesional {% endblock %}</title>
+{% block content %}
+
+    <div class="container">
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+            <div class="col-xl-10 col-lg-12 col-md-9">
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">Editar profesional</h1>
+                                    </div>
+                                    <form class="user" action="/editarProfesional" method="POST">{% csrf_token %}
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <label class="mt-2" for="nombreEmpresa">Nombre</label>
+                                                    <input class="form-control" type="text" name="nombreEmpresa" id="nombreEmpresa">
+                                                    {{ profesional.nombreCompleto }}
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <label class="mt-2 mb-1" for="rut">Rut</label>
+                                                    <input class="form-control" type="text" name="rut" id="rut" maxlength="10" oninput="checkRut(this)">
+                                                    {{ profesional.rut }}
+                                                </div>
+                
+                                                <div class="col-12">
+                                                    <label class="mt-2" for="email">Email</label>
+                                                    <input type="email" class="form-control" id="email" name="email">
+                                                    {{ profesional.email }}
+                                                </div>
+                
+                                                <div class="col-12">
+                                                    <label class="mt-2 mb-1" for="categoria">Categoria</label>
+                                                    <select class="form-control" name="categoria" id="categoria">
+                                                        <option value="null">Seleccione</option>
+                                                        <option value="Seguridad">Seguridad</option>
+                                                        <option value="Prevención de Riesgos">Prevención de Riesgos</option>
+                                                    </select>
+                                                    {{ profesional.categoria }}
+                                                </div>
+                
+                                                <div class="col-12">
+                                                    <label class="mt-2" for="contrasena">Contraseña</label>
+                                                    <input type="password" class="form-control" id="contrasena" name="contrasena">
+                                                    {{ profesional.contrasena }}
+                                                </div>
+                                            </div>
+                                        </div>
+                
+                                        <div class="modal-footer">
+                                            <a href="{% url 'verProfesionales' %}">
+                                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                                            </a>
+                                            <button type="submit" class="btn btn-success">Editar</button>
+                                        </div>
+                                    </form>
+                                    <hr>
+                                    <div class="text-center">
+                                        <small>
+                                            "Producto desarrollado por @IntegralSoftware"
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        
+{% endblock %}
