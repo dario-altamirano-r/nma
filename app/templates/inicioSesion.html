@@ -28,10 +28,12 @@
                                     </div>
                                     <form class="user" method="post" action="{% url 'login' %}">{% csrf_token %}
                                         <div class="form-group">
-                                            <input type="text" class="form-control form-control-user" id="rut" name="rut" aria-describedby="emailHelp" placeholder="RUT">
+                                            <label class="mt-2 mb-1" for="rut">Rut</label>
+                                            <input class="form-control" type="text" name="rut" id="rut" maxlength="10" oninput="checkRut(this)">
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user" id="contrasena" name="contrasena" placeholder="Contraseña">
+                                            <label class="mt-2" for="contrasena">Contraseña</label>
+                                            <input type="password" class="form-control" id="contrasena" name="contrasena">
                                         </div>
                                         <input type="hidden" class="form-control form-control-user" name="origen" value="1">
                                         <button type="submit" class="btn btn-primary btn-user btn-block">Iniciar sesión</button>
@@ -59,7 +61,8 @@
             </div>
         </div>
     </div>
-
+    
+    <script src="{% static 'js/validaRUT.js' %}"></script>
     <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
 

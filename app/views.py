@@ -100,8 +100,6 @@ def eliminarProfesional(request, rutProfesional):
     return render(request, 'admin/editarProfesional.html', {'profesional': form})
 
 
-#----------------------------------------------------------------------------------
-
 #ver clientes
 def verClientes(request):
     clientes = Cliente.objects.all()
@@ -156,7 +154,8 @@ def eliminarCliente(request, rutCliente):
     else:
         form = ClienteForm(instance=cliente)
         return render(request, 'admin/registroCliente.html', {'form': form})"""
-#-----------------------------------------------------------------------------
+
+
 #ver visitas
 def verVisitas(request):
     clientes = Cliente.objects.all()
@@ -200,12 +199,41 @@ def eliminarVisita(request, id):
         return redirect('homeAdmin/verVisitas')
     return render(request, 'admin/verVisitas.html')
 
-#----------------------------------------------------------------------------------
 
-#ver calendario
+#seccion material
+def verMateriales(request):
+    return render(request, 'admin/verMateriales.html')
+
+
+#seccion fiscalizaciones
+def verFiscalizaciones(request):
+    fiscalizaciones = Chequeo.objects.all()
+    return render(request, 'admin/verFiscalizaciones.html', {'listaFiscalizaciones': fiscalizaciones})
+
+
+#seccion capacitaciones
+def verCapacitaciones(request):
+    capacitaciones = Capacitacion.objects.all()
+    return render(request, 'admin/verCapacitaciones.html', {'listaCapacitaciones': capacitaciones})
+
+
+#seccion calendario
 def verCalendario(request):
     visitas = Visita.objects.all()
     return render(request, 'admin/verCalendario.html', {'listaVisitas': visitas})
+
+
+#seccion finanzas
+def verFinanzas(request):
+    pagos = Pago.objects.all()
+    return render(request, 'admin/verFinanzas.html', {'listaPagos': pagos})
+
+
+#seccion solicitudes
+def verSolicitudes(request):
+    solicitudes = Solicitud.objects.all()
+    return render(request, 'admin/verSolcitudes.html', {'listaSolicitudes': solicitudes})
+
 
 #--------------------------------------------------------------------------
 #FUNCIONES CLIENTE
@@ -213,14 +241,23 @@ def verCalendario(request):
 def homeCliente(request):
     return render(request, 'cliente/homeCliente.html')
 
-def miPlan(request):
-    return render(request, 'cliente/detallePlan.html')
+def verMaterialCliente(request):
+    return render(request, 'cliente/verMaterialesCliente.html')
 
-def estadoCuenta(request):
-    return render(request, 'cliente/estadoCuenta.html')
+def verFiscalizacionesCliente(request):
+    return render(request, 'cliente/verFiscalizacionesCliente.html')
 
-def servicios(request):
-    return render(request, 'cliente/servicios.html')
+def verCapacitacionesCliente(request):
+    return render(request, 'cliente/verCapacitacionesCliente.html')
+
+def verCalendarioCliente(request):
+    return render(request, 'cliente/verCalendarioCliente.html')
+
+def verFinanzasCliente(request):
+    return render(request, 'cliente/verFinanzasCliente.html')
+
+def verSolicitudesCliente(request):
+    return render(request, 'cliente/verSolicitudesCliente.html')
 
 #--------------------------------------------------------------------------
 #FUNCIONES PROFESIONAL

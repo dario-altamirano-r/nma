@@ -1,0 +1,241 @@
+{% extends 'bases/baseCliente.html' %}
+{% load static %}
+<title>{% block title %} Ver Solicitudes Cliente {% endblock %}</title>
+{% block content %}
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Solicitudes</h1>
+            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                class="fas fa-download fa-sm text-white-50"></i> Generar Reporte</a>
+        </div>
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <button id="btn-agregar" data-toggle="modal" data-target="#addModal" class="btn btn-success">Agregar Solicitud</button>
+            </div>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <div id="tablaClientes_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                <div class="row be-datatable-header">
+                    <div class="col-md-6"><div class="dataTables_length" id="tablaClientes_length">
+                        <label>Mostrar registros<select name="tablaClientes_length" aria-controls="tablaClientes" class="custom-select custom-select-sm form-control form-control-sm">
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select> 
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="col-md-6"><div id="tablaClientes_filter" class="dataTables_filter">
+                    <label>Buscar
+                        <input type="search" class="form-control form-control-sm" placeholder="" aria-controls="tablaClientes">
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-bordered dataTable" id="tablaClientes" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                                <thead>
+                                    <tr role="row">
+                                        <th>Empresa</th>
+                                        <th>RUT</th>
+                                        <th>Rubro</th>
+                                        <th>Tamaño</th>
+                                        <th>Mutualidad</th>
+                                        <th>Estado</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for cliente in listaClientes %}
+                                        <tr>
+                                            <th scope="row">{{cliente.nombreEmpresa}}</th>
+                                            <td>{{cliente.rut}}</td>
+                                            <td>{{cliente.rubro}}</td>
+                                            <td>{{cliente.tamanio}} <a>personas</a></td>
+                                            <td>{{cliente.mutualidad}}</td>
+                                            <td>{% if cliente.estado == True %}
+                                                    <span class="badge badge-success">Activo</span>
+                                                {% else %}
+                                                    <span class="badge badge-danger">Inactivo</span>
+                                                {% endif %}
+                                            </td>  
+                                            <td>
+                                                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">                                                    
+                                                    <a href="{% url 'editarCliente' cliente.rut %}">
+                                                        <button title="Editar Cliente" name="btn-editar" type="button" class="btn btn-sm bg-gray-200 text-dark"><i class="fas fa-fw fa-edit" aria-hidden="true"></i></button>
+                                                    </a>
+                                                    <a>
+                                                        <button title="Eliminar Cliente" data-toggle="modal" data-target="#deleteModal" name="btn-eliminar" type="button" class="btn btn-sm bg-gray-200 text-danger"><i class="fas fa-fw fa-trash" aria-hidden="true"></i></button>
+                                                    </a>
+                                                    <button title="Ver detalles Cliente" name="btn-gestiones" class="btn bg-gray-200 btn-sm"><i class="fas fa-paper-plane text-dark" aria-hidden="true"></i></button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row be-datatable-footer">
+            <div class="col-sm-5"><div class="dataTables_info" id="tablaClientes_info" role="status" aria-live="polite">Mostrando 0 a 0 de 0 registros</div>
+        </div>
+
+        <div class="col-sm-7">
+            <div class="dataTables_paginate paging_simple_numbers" id="tablaClientes_paginate">
+                <ul class="pagination">
+                    <li class="paginate_button page-item previous disabled" id="tablaClientes_previous">
+                        <a href="#" aria-controls="tablaClientes" data-dt-idx="0" tabindex="0" class="page-link">Anterior</a>
+                    </li>
+                    <li class="paginate_button page-item next disabled" id="tablaClientes_next">
+                        <a href="#" aria-controls="tablaClientes" data-dt-idx="1" tabindex="0" class="page-link">Siguiente</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Seleccionaste cerrar sesión, estás seguro?</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                    <a class="btn btn-primary" href="{% url 'logout' %}">Cerrar sesión</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Agregar Modal-->
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Agregar Cliente</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-hidden="true"><span class="fa-solid fa-xmark"></span></button>
+                </div>
+                <div class="modal-body">
+                    <form class="user" action="/registrarCliente" method="POST">{% csrf_token %}
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-12">
+                                    <label class="mt-2 mb-1" for="rut">Rut</label>
+                                    <input class="form-control" type="text" name="rut" id="rut" maxlength="10" oninput="checkRut(this)">
+                                </div>
+
+                                <div class="col-12">
+                                    <label class="mt-2" for="nombreEmpresa">Nombre Empresa</label>
+                                    <input class="form-control" type="text" name="nombreEmpresa" id="nombreEmpresa">
+                                </div>
+
+                                <div class="col-12">
+                                    <label class="mt-2" for="email">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email">
+                                </div>
+
+                                <div class="col-12">
+                                    <label class="mt-2 mb-1" for="rubro">Rubro</label>
+                                    <select class="form-control" name="rubro" id="rubro">
+                                        <option value="null">Seleccione</option>
+                                        <option value="Seguridad">Seguridad</option>
+                                        <option value="Prevención de Riesgos">Prevención de Riesgos</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-12">
+                                    <label class="mt-2 mb-1" for="tamanio">Cantidad de personas</label>
+                                    <input class="form-control" type="number" min="0" name="tamanio" id="tamanio">
+                                </div>
+
+                                <div class="col-12">
+                                    <label class="mt-2 mb-1" for="mutualidad">Mutualidad</label>
+                                    <select class="form-control" name="mutualidad" id="mutualidad">
+                                        <option value="null">Seleccione</option>
+                                        <option value="Mutual de Seguridad">Mutual de Seguridad</option>
+                                        <option value="Mutual de Seguridad CChC">Mutual de Seguridad CChC</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-12">
+                                    <label class="mt-2" for="numeroTelefono">Telefono</label>
+                                    <input type="text" class="form-control" id="numeroTelefono" name="numeroTelefono" maxlength="13" value="+56 ">
+                                </div>
+
+                                <div class="col-12">
+                                    <label class="mt-2" for="contrasena">Contraseña</label>
+                                    <input type="password" class="form-control" id="contrasena" name="contrasena">
+                                </div>
+
+                                <input type="hidden" class="form-control" name="estado" value="true">
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-success">Agregar</button>
+                            <!--a class="btn btn-success" id="btn-add-cliente">Agregar</a-->
+                        </div>
+                    </form>
+                </div>    
+
+            </div>
+        </div>
+    </div>   
+
+    <!-- Delete Modal-->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Eliminar cliente</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Estas seguro de eliminar al cliente {{cliente.nombreEmpresa}}</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                    {% for cliente in listaClientes %}
+                        <a class="btn btn-primary" href="{% url 'eliminarCliente' cliente.rut %}">Eliminar</a>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'js/validaRUT.js' %}"></script>
+{% endblock %}

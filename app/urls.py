@@ -45,31 +45,48 @@ urlpatterns = [
     path('editarVisita/<int:id>', views.editarVisita, name='editarVisita'),
     path('eliminarVisita/<int:id>', views.eliminarVisita, name='eliminarVisita'),
 
+    #seccion material
+    path('homeAdmin/verMateriales/', views.verMateriales, name = 'verMateriales'),
+
+    #seccion fiscalizaciones
+    path('homeAdmin/verFiscalizaciones/', views.verFiscalizaciones, name = 'verFiscalizaciones'),
+
+    #seccion capacitaciones
+    path('homeAdmin/verCapacitaciones/', views.verCapacitaciones, name = 'verCapacitaciones'),
+
     #seccion calendario
     path('homeAdmin/verCalendario/', views.verCalendario, name = 'verCalendario'),
 
-#-----------------------------------------------------------------------------------------#
+    #seccion finanzas
+    path('homeAdmin/verFinanzas/', views.verFinanzas, name = 'verFinanzas'),
 
-    #vista de cliente
-    #en el homeCliente, debe estar el estado general, cantidades de visitas, asesorias y capacitaciones
-    #accesos a las demas secciones
+    #seccion solicitudes
+    path('homeAdmin/verSolicitudes/', views.verSolicitudes, name = 'verSolicitudes'),
+
+
+#-----------------------------------------------------------------------------------------#
+    #PANEL CLIENTE
+
+    #home
     path('homeCliente/', views.homeCliente, name = 'homeCliente'),
 
-    #detallePlan
-    #aqui debe verse el detalle del plan con sus cantidades de visitas, asesorias y capacitaciones
-    #ademas del monto actual del plan mas los servicios adicionales solicitados
-    path('miPlan/', views.miPlan, name = 'miPlan'),
+    #seccion material
+    path('homeCliente/verMaterialesCliente/', views.verMaterialCliente, name = 'verMaterialesCliente'),
 
-    #estadoCuenta
-    #en este menu deben verse todo lo relacionado con los pagos, ya sea los realizados, los por pagar, etc
-    #ademas de un detalle de los pagos realizados, por que medios, etc
-    #en este menu tambien debe pagar!
-    path('estadoCuenta/', views.estadoCuenta, name = 'estadoCuenta'),
+    #seccion fiscalizaciones
+    path('homeCliente/verFiscalizacionesCliente/', views.verFiscalizacionesCliente, name = 'verFiscalizacionesCliente'),
 
-    #servicios
-    #en este menu debe desplegarse que tipo de servicio necesita, si es asesoria, capacitacion o visita
-    #acordando disponibilidad de acuerdo a fecha y completar el formulario que corresponda segun el caso
-    path('servicios/', views.servicios, name = 'servicios'),
+    #seccion capacitaciones
+    path('homeCliente/verCapacitacionesCliente/', views.verCapacitacionesCliente, name = 'verCapacitacionesCliente'),
+
+    #seccion calendario
+    path('homeCliente/verCalendarioCliente/', views.verCalendarioCliente, name = 'verCalendarioCliente'),
+
+    #seccion finanzas
+    path('homeCliente/verFinanzasCliente/', views.verFinanzasCliente, name = 'verFinanzasCliente'),
+
+    #seccion solicitudes
+    path('homeCliente/verSolicitudesCliente/', views.verSolicitudesCliente, name = 'verSolicitudesCliente'),
 
 #-----------------------------------------------------------------------------------------#
 
